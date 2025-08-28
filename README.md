@@ -72,7 +72,7 @@ The **server/db.js** file exports helper functions for working with the database
 
 `getFromDatabaseById`:
 
-- Takes the model name argument and a second string argument representing the unique ID of the element. Returns the instance with valid inputs and `null` with an invalid id.
+- Takes the model name argument and a second string argument representing the unique ID of the element. Returns the instance with valid inputs and `-1` with an invalid id.
 
 `addToDatabase`:
 
