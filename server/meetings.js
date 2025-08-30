@@ -16,6 +16,8 @@ const {
   deleteAllFromDatabase,
 } = require('./db');
 
+
+
 // GET request for all meetings using our getAllFromDataBase function
 meetingsRouter.get('/', (req,res,next) =>
     res.send(getAllFromDatabase('meetings'))

@@ -15,6 +15,19 @@ const {
   deleteFromDatabasebyId,
 } = require('./db');
 
+// custom check for million dollar idea middlware function
+
+const checkMillionDollarIdea = (req, res, next) => {
+  const { numWeeks, weeklyRevenue } = req.body;
+  const totalMoney = Number(numWeeks) * Number(weeklyRevenue);
+  if (!numWeeks || !weeklyRevenue || isNaN(totalMoney) || totalMoney < 1000000) {
+    res.status(400).send();
+  } else {
+    next();
+  }
+}
+
+
 // set up ideaId parameter middleware, it uses our database function to retrieve the idea associated with a given id
 ideasRouter.param('ideaId', (req, res, next, id) => {
     const ideaFound = getFromDatabaseById('idea',id);
