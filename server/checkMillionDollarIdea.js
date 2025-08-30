@@ -1,7 +1,3 @@
-
-
-// custom check for million dollar idea middlware function
-
 const checkMillionDollarIdea = (req, res, next) => {
   const { numWeeks, weeklyRevenue } = req.body;
   const totalMoney = Number(numWeeks) * Number(weeklyRevenue);
@@ -12,5 +8,5 @@ const checkMillionDollarIdea = (req, res, next) => {
   }
 }
 
-
+// Leave this exports assignment so that the function can be used elsewhere
 module.exports = checkMillionDollarIdea;

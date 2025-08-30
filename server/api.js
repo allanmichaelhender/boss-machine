@@ -1,8 +1,6 @@
 const express = require('express');
 const apiRouter = express.Router();
 
-//importing in and mounting all our routers
-
 const minionsRouter = require('./minions');
 const ideasRouter = require('./ideas');
 const meetingsRouter = require('./meetings');

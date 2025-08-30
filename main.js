@@ -9,6 +9,6 @@ const PORT = process.env.PORT || 4001;
 if (require.main === module) { 
   // Add your code to start the server listening at PORT below:
   app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`)})}
-
-    
+    console.log(`Server listening on port ${PORT}`);
+  });
+}

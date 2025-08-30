@@ -1,36 +1,19 @@
-/// make a router to meetings
-
-const express = require('express');
-const meetingsRouter = express.Router();
+const meetingsRouter = require('express').Router();
 
 module.exports = meetingsRouter;
 
+const { getAllFromDatabase, addToDatabase, deleteAllFromDatabase, createMeeting } = require('./db');
 
-// import our database functions
-const { 
-  addToDatabase,
-  getAllFromDatabase,
-  getFromDatabaseById,
-  updateInstanceInDatabase,
-  deleteFromDatabasebyId,
-  deleteAllFromDatabase,
-} = require('./db');
+meetingsRouter.get('/', (req, res, next) => {
+  res.send(getAllFromDatabase('meetings'));
+});
 
+meetingsRouter.post('/', (req, res, next) => {
+  let newMeeting = addToDatabase('meetings', createMeeting());
+  res.status(201).send(newMeeting);
+});
 
-
-// GET request for all meetings using our getAllFromDataBase function
-meetingsRouter.get('/', (req,res,next) =>
-    res.send(getAllFromDatabase('meetings'))
-)
-
-// Post request to create new meeting using addToDatabase function which returns the newly created instance if successful and an error message if not
-meetingsRouter.post('/', (req,res,next) => {
-    const newmeeting = addToDatabase('meetings', req.body);
-    res.status(201).send(newmeeting)
-})
-
-// delete request for all meetings using our deleteAllFromDataBase function
-meetingsRouter.delete('/', (req,res,next) =>{
-    deleteAllFromDatabase('meetings');
-    res.status(204).send()}
-)
+meetingsRouter.delete('/', (req, res, next) => {
+  deleteAllFromDatabase('meetings');
+  res.status(204).send();
+});
