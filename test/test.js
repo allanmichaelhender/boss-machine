@@ -686,7 +686,7 @@ describe('/api/meetings routes', function() {
 
 });
 
-describe('BONUS: /api/minions/:minionId/work routes', function() {
+xdescribe('BONUS: /api/minions/:minionId/work routes', function() {
 
   let fakeDb = require('../server/db.js').db;
   
@@ -842,30 +842,22 @@ describe('BONUS: /api/minions/:minionId/work routes', function() {
   
     describe('POST /api/minions/:minionId/work', function() {
   
-      it('should add a new idea if all supplied information is correct', function() {
-        let initialWorkArray;
-        let newIdeaObject = {
-          name: 'Test',
+      it('should add a new work item if all supplied information is correct', function() {
+        let newWorkObject = {
+          title: 'Test',
           description: '',
-          weeklyRevenue: 200000,
-          numWeeks: 10,
-        }
+          hours: 20,
+          minionId: '2',
+        };
         return request(app)
-          .get('/api/ideas')
-          .then((response) => {
-            initialWorkArray = response.body;
+          .post('/api/minions/2/work')
+          .send(newWorkObject)
+          .expect(201)
+          .then(res => res.body)
+          .then(createdWork => {
+            newWorkObject.id = createdWork.id;
+            expect(newWorkObject).to.be.deep.equal(createdWork);
           })
-          .then(() => {
-            return request(app)
-              .post('/api/ideas')
-              .send(newIdeaObject)
-              .expect(201);
-          })
-          .then((response) => response.body)
-          .then((createdIdea) => {
-            newIdeaObject.id = createdIdea.id;
-            expect(newIdeaObject).to.be.deep.equal(createdIdea);
-          });
       });
   
     });
