@@ -15,24 +15,13 @@ const {
   deleteFromDatabasebyId,
 } = require('./db');
 
-// custom check for million dollar idea middlware function
-
-const checkMillionDollarIdea = (req, res, next) => {
-  const { numWeeks, weeklyRevenue } = req.body;
-  const totalMoney = Number(numWeeks) * Number(weeklyRevenue);
-  if (!numWeeks || !weeklyRevenue || isNaN(totalMoney) || totalMoney < 1000000) {
-    res.status(400).send();
-  } else {
-    next();
-  }
-}
-
+const checkMillionDollarIdea = require('./checkMillionDollarIdea');
 
 // set up ideaId parameter middleware, it uses our database function to retrieve the idea associated with a given id
 ideasRouter.param('ideaId', (req, res, next, id) => {
-    const ideaFound = getFromDatabaseById('idea',id);
+    const ideaFound = getFromDatabaseById('ideas',id);
     if (ideaFound) {
-        req.idea = idea;
+        req.idea = ideaFound;
         next()}
     else {
         res.status(404).send()
@@ -44,7 +33,7 @@ ideasRouter.get('/', (req,res,next) =>
 )
 
 // Post request to create new idea using addToDatabase function which returns the newly created instance if successful and an error message if not
-ideasRouter.post('/', (req,res,next) => {
+ideasRouter.post('/',checkMillionDollarIdea, (req,res,next) => {
     const newidea = addToDatabase('ideas', req.body);
     res.status(201).send(newidea)
 })
@@ -55,7 +44,7 @@ ideasRouter.get('/:ideaId', (res,req,next) => {
 })
 
 // PUT request to update single idea, using updateInstanceInDatabase function, again will return instance or throw error
-ideasRouter.put('/:ideaId', (req,res,next) => {
+ideasRouter.put('/:ideaId',checkMillionDollarIdea, (req,res,next) => {
     const updatedidea = updateInstanceInDatabase('idea', req.body);
     res.send(updatedidea)
 })

@@ -17,9 +17,9 @@ const {
 
 // set up minionId parameter middleware, it uses our database function to retrieve the minion associated with a given id
 minionsRouter.param('minionId', (req, res, next, id) => {
-    const minionFound = getFromDatabaseById('minion',id);
+    const minionFound = getFromDatabaseById('minions',id);
     if (minionFound) {
-        req.minion = minion;
+        req.minion = minionFound;
         next()}
     else {
         res.status(404).send()
